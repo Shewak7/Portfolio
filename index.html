@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shewak N — Data Analyst & ML Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --bg:            #F9F8F5;
+      --surface:       #F2F0EB;
+      --surface-2:     #ECEAE3;
+      --border:        #E0DDD5;
+      --border-dark:   #C9C4BA;
+      --ink:           #18160F;
+      --ink-2:         #3C3930;
+      --muted:         #7C7669;
+      --accent:        #1B4F72;
+      --accent-light:  #EAF2F8;
+      --accent-border: #BDD5EA;
+      --rule:          #D8D4CC;
+      --green:         #1A6640;
+      --green-bg:      #EAF4EE;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ─── NAV ─── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      background: rgba(249,248,245,0.97);
+      backdrop-filter: blur(18px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    #nav.scrolled { box-shadow: 0 2px 24px rgba(24,22,15,0.08); }
+    .nav-inner {
+      max-width: 940px; margin: 0 auto; padding: 0 28px;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+    }
+    .nav-logo em { color: var(--accent); font-style: normal; }
+    .nav-links { display: flex; gap: 26px; align-items: center; }
+    .nav-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.67rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.055em; text-transform: uppercase;
+      transition: color 0.2s; position: relative; padding-bottom: 2px;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
+    }
+    .nav-link:hover { color: var(--accent); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+    .nav-link.active { color: var(--accent); }
+    .nav-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 6px 15px; border-radius: 4px; text-decoration: none; transition: all 0.2s;
+    }
+    .nav-btn:hover { background: var(--accent); color: #fff; }
+
+    /* Mobile hamburger */
+    .ham {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 5px;
+    }
+    .ham span { display: block; width: 21px; height: 1.5px; background: var(--ink); transition: all 0.25s; }
+    #mob-menu {
+      display: none; flex-direction: column;
+      background: var(--bg); border-top: 1px solid var(--border); padding: 6px 28px 18px;
+    }
+    #mob-menu.open { display: flex; }
+    #mob-menu a {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem;
+      color: var(--ink-2); padding: 11px 0; border-bottom: 1px solid var(--border);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    #mob-menu a:last-child { border-bottom: none; }
+
+    /* ─── PAGE CONTAINER ─── */
+    .page { max-width: 940px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 78px 0; border-bottom: 1px solid var(--rule); }
+    section:last-of-type { border-bottom: none; }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 7px;
+    }
+    .sec-label::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem; font-weight: 600; color: var(--ink);
+      letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 38px;
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── PROFILE ─── */
+    #profile { padding-top: 122px; padding-bottom: 78px; }
+    .profile-layout { display: grid; grid-template-columns: 1fr 270px; gap: 48px; align-items: start; }
+    .profile-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .profile-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5.5vw, 3.8rem); font-weight: 700;
+      letter-spacing: -0.03em; color: var(--ink); line-height: 1.08; margin-bottom: 18px;
+    }
+    .profile-bio { font-size: 0.93rem; color: var(--ink-2); line-height: 1.82; max-width: 520px; font-weight: 300; margin-bottom: 22px; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 22px; }
+    .meta-pill { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); }
+    .meta-pill i { color: var(--accent); font-size: 0.65rem; }
+    .icon-links { display: flex; gap: 8px; align-items: center; margin-bottom: 22px; }
+    .icon-link {
+      width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--border-dark);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-2); text-decoration: none; font-size: 0.84rem; transition: all 0.2s;
+    }
+    .icon-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .btn-dl {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--ink); color: #fff;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.69rem; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 9px 20px; border-radius: 4px; text-decoration: none;
+      border: 1px solid var(--ink); transition: all 0.2s;
+    }
+    .btn-dl:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* Profile side card — no stats */
+    .profile-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 24px 20px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .card-block { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .card-block:first-child { padding-top: 0; }
+    .card-block:last-child { border-bottom: none; padding-bottom: 0; }
+    .card-lbl {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
+    }
+    .card-text { font-size: 0.82rem; color: var(--ink-2); line-height: 1.65; }
+    .card-inst { font-size: 0.82rem; color: var(--ink-2); font-weight: 400; line-height: 1.5; }
+    .card-inst small { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 2px; }
+    .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 7px; vertical-align: middle; }
+
+    /* ─── EDUCATION ─── */
+    .edu-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-inst { font-family: 'Playfair Display', serif; font-size: 0.98rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .edu-deg { font-size: 0.85rem; color: var(--ink-2); }
+    .edu-yr { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+
+    /* ─── PROJECTS ─── */
+    .proj-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 18px; transition: border-color 0.25s, box-shadow 0.25s; }
+    .proj-card:hover { border-color: var(--border-dark); box-shadow: 0 4px 28px rgba(24,22,15,0.08); }
+    .proj-head { padding: 24px 26px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+    .proj-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.09em; margin-bottom: 4px; }
+    .proj-title { font-family: 'Playfair Display', serif; font-size: 1.12rem; font-weight: 600; color: var(--ink); }
+    .proj-period { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); white-space: nowrap; padding-top: 4px; }
+    .proj-body { padding: 14px 26px 24px; }
+    .proj-desc { font-size: 0.88rem; color: var(--ink-2); line-height: 1.78; margin-bottom: 13px; }
+    .proj-list { list-style: none; margin-bottom: 16px; }
+    .proj-list li { font-size: 0.84rem; color: var(--ink-2); padding: 2.5px 0; display: flex; gap: 10px; }
+    .proj-list li::before { content: '—'; color: var(--accent); flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tech-tag {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.64rem; letter-spacing: 0.03em;
+      color: var(--accent); background: var(--accent-light);
+      border: 1px solid var(--accent-border); padding: 2px 9px; border-radius: 3px;
+    }
+    .proj-footer { border-top: 1px solid var(--border); padding: 12px 26px; display: flex; gap: 10px; background: var(--surface); }
+    .pl { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--ink-2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .pl:hover { color: var(--accent); }
+    .pl.live { background: var(--accent); color: #fff; padding: 5px 13px; border-radius: 3px; transition: background 0.2s; }
+    .pl.live:hover { background: #154060; }
+
+    /* ─── SKILLS ─── */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .skill-cat { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 18px; }
+    .skill-cat-lbl {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 11px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .skill-cat-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border-dark); }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+    .sp {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--ink-2);
+      background: var(--bg); border: 1px solid var(--border-dark);
+      padding: 3px 9px; border-radius: 3px; transition: all 0.15s; cursor: default;
+    }
+    .sp:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    /* ─── CERTIFICATIONS ─── */
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .cert-card {
+      border: 1px solid var(--border); border-radius: 9px; overflow: hidden;
+      background: var(--surface); transition: border-color 0.25s, box-shadow 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .cert-card:hover { border-color: var(--border-dark); box-shadow: 0 4px 24px rgba(24,22,15,0.09); }
+
+    /* Image wrapper — click to expand */
+    .cert-img-wrap {
+      position: relative; width: 100%; aspect-ratio: 4/3;
+      background: var(--surface-2); cursor: pointer; overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .cert-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .cert-img-wrap:hover img { transform: scale(1.04); }
+
+    /* Placeholder shown when no image set */
+    .cert-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; color: var(--muted);
+    }
+    .cert-placeholder i { font-size: 2rem; color: var(--border-dark); }
+    .cert-placeholder span { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0 12px; }
+
+    /* Upload overlay */
+    .upload-overlay {
+      position: absolute; inset: 0; background: rgba(27,79,114,0.82);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; opacity: 0; transition: opacity 0.2s;
+    }
+    .cert-img-wrap:hover .upload-overlay { opacity: 1; }
+    .upload-overlay i { color: #fff; font-size: 1.3rem; }
+    .upload-overlay span { color: rgba(255,255,255,0.9); font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; }
+
+    .cert-file-input { display: none; }
+
+    /* Expand overlay (shown on image hover when image is set) */
+    .expand-hint {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(24,22,15,0.55); color: #fff;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+      padding: 3px 8px; border-radius: 3px; opacity: 0; transition: opacity 0.2s;
+    }
+    .cert-img-wrap:hover .expand-hint { opacity: 1; }
+
+    .cert-info { padding: 16px 18px 18px; flex: 1; }
+    .cert-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+    .cert-issuer-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; color: var(--muted); }
+
+    /* ─── LIGHTBOX ─── */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(24,22,15,0.88); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; cursor: pointer;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: min(90vw, 860px); max-height: 88vh;
+      border-radius: 6px; box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      cursor: default;
+    }
+    #lightbox-close {
+      position: absolute; top: 20px; right: 24px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+      color: rgba(255,255,255,0.55); cursor: pointer; letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    #lightbox-close:hover { color: #fff; }
+
+    /* ─── LEADERSHIP ─── */
+    .lead-item { padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 12px; }
+    .lead-item:last-child { border-bottom: none; }
+    .lead-dash { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; font-size: 0.78rem; }
+    .lead-txt { font-size: 0.88rem; color: var(--ink-2); }
+    .lead-txt strong { color: var(--ink); font-weight: 500; }
+
+    /* ─── CONTACT ─── */
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+    .contact-intro { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 26px; }
+    .cl-row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: all 0.2s; }
+    .cl-row:last-child { border-bottom: none; }
+    .cl-row:hover .cl-lbl { color: var(--accent); }
+    .cl-icon { width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--accent-border); background: var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.82rem; flex-shrink: 0; }
+    .cl-sublbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--muted); letter-spacing: 0.09em; text-transform: uppercase; }
+    .cl-lbl { font-size: 0.85rem; color: var(--ink-2); font-weight: 300; transition: color 0.2s; }
+
+    /* Form */
+    .form-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 26px; }
+    .f-grp { margin-bottom: 13px; }
+    .f-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
+    .f-inp { width: 100%; background: var(--bg); border: 1px solid var(--border-dark); border-radius: 4px; padding: 9px 13px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.86rem; color: var(--ink); outline: none; transition: border-color 0.2s; }
+    .f-inp:focus { border-color: var(--accent); }
+    .f-inp::placeholder { color: var(--muted); }
+    textarea.f-inp { resize: vertical; min-height: 100px; }
+    .btn-send { width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 0.69rem; letter-spacing: 0.09em; text-transform: uppercase; background: var(--ink); color: #fff; border: 1px solid var(--ink); border-radius: 4px; padding: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px; }
+    .btn-send:hover { background: var(--accent); border-color: var(--accent); }
+    #f-ok { display: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--green); text-align: center; margin-top: 10px; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--ink); padding: 32px 28px; text-align: center; }
+    .foot-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 14px; }
+    .foot-links a { color: rgba(255,255,255,0.4); font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
+    .foot-links a:hover { color: #fff; }
+    .foot-copy { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.35); }
+    .foot-copy span { color: rgba(255,255,255,0.6); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 740px) {
+      .nav-links, .nav-btn { display: none; }
+      .ham { display: flex; }
+      .profile-layout { grid-template-columns: 1fr; }
+      .profile-card { display: none; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .cert-grid { grid-template-columns: 1fr 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .proj-head { flex-direction: column; gap: 4px; }
+    }
+    @media (max-width: 480px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .cert-grid { grid-template-columns: 1fr; }
+      .page { padding: 0 18px; }
+      .profile-name { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#profile" class="nav-logo"><em>S</em>hewak N</a>
+    <div class="nav-links">
+      <a href="#profile"        class="nav-link">Profile</a>
+      <a href="#education"      class="nav-link">Education</a>
+      <a href="#projects"       class="nav-link">Projects</a>
+      <a href="#skills"         class="nav-link">Skills</a>
+      <a href="#certifications" class="nav-link">Certifications</a>
+      <a href="#leadership"     class="nav-link">Leadership</a>
+      <a href="#contact"        class="nav-link">Contact</a>
+    </div>
+    <a href="resume.pdf" download class="nav-btn">
+      <i class="fas fa-download" style="font-size:0.6rem; margin-right:5px"></i>Resume
+    </a>
+    <button class="ham" id="ham" onclick="toggleMob()">
+      <span id="h1"></span><span id="h2"></span><span id="h3"></span>
+    </button>
+  </div>
+  <div id="mob-menu">
+    <a href="#profile"        onclick="toggleMob()">Profile</a>
+    <a href="#education"      onclick="toggleMob()">Education</a>
+    <a href="#projects"       onclick="toggleMob()">Projects</a>
+    <a href="#skills"         onclick="toggleMob()">Skills</a>
+    <a href="#certifications" onclick="toggleMob()">Certifications</a>
+    <a href="#leadership"     onclick="toggleMob()">Leadership</a>
+    <a href="#contact"        onclick="toggleMob()">Contact</a>
+    <a href="resume.pdf" download>↓ Download Resume</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ PROFILE ═══════════════════ -->
+<section id="profile">
+  <div class="page">
+    <div class="profile-layout reveal">
+      <!-- LEFT -->
+      <div>
+        <p class="profile-role">Data Analyst &amp; Machine Learning Engineer</p>
+        <h1 class="profile-name">Shewak N</h1>
+        <p class="profile-bio">
+          Aspiring Data Analyst with hands-on skills in Python, SQL, and Machine Learning.
+          Experienced in data preprocessing, feature engineering, and building ML models using Scikit-learn.
+          Seeking to apply analytical and problem-solving skills to real-world data-driven challenges.
+        </p>
+        <div class="meta-row">
+          <span class="meta-pill"><i class="fas fa-map-marker-alt"></i>Chennai, TN</span>
+          <span class="meta-pill"><i class="fas fa-phone"></i>+91-9626816717</span>
+          <span class="meta-pill"><i class="fas fa-envelope"></i>shewak0707@gmail.com</span>
+        </div>
+        <div class="icon-links">
+          <a href="mailto:shewak0707@gmail.com"           class="icon-link" title="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://www.linkedin.com/in/shewak7/"  class="icon-link" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/Shewak7"            class="icon-link" title="GitHub"   target="_blank"><i class="fab fa-github"></i></a>
+          <a href="tel:+919626816717"                     class="icon-link" title="Phone"><i class="fas fa-phone"></i></a>
+        </div>
+        <a href="resume.pdf" download class="btn-dl">
+          <i class="fas fa-file-pdf" style="font-size:0.66rem"></i>Download Resume (PDF)
+        </a>
+      </div>
+      <!-- RIGHT CARD — no stats -->
+      <div class="profile-card">
+        <div class="card-block">
+          <div class="card-lbl">Objective</div>
+          <p class="card-text">
+            Seeking internships or full-time roles in Data Analysis or ML Engineering to apply
+            analytical and problem-solving skills to real-world data-driven challenges.
+          </p>
+        </div>
+        <div class="card-block">
+          <div class="card-lbl">Availability</div>
+          <div class="card-text" style="margin-top:4px;">
+            <span class="status-dot"></span>Open to Opportunities
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="card-lbl">Institution</div>
+          <div class="card-inst" style="margin-top:4px;">
+            College of Engineering Guindy
+            <small>Anna University · B.Tech IT · 2022 – 2026</small>
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="card-lbl">Location</div>
+          <div class="card-text" style="margin-top:4px;">Chennai, Tamil Nadu, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ EDUCATION ═══════════════════ -->
+<section id="education">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Education</p>
+      <h2 class="sec-title">Academic Background</h2>
+    </div>
+    <div class="reveal">
+      <div class="edu-item">
+        <div>
+          <div class="edu-inst">College of Engineering Guindy, Anna University</div>
+          <div class="edu-deg">B.Tech in Information Technology &nbsp;·&nbsp; Chennai, Tamil Nadu</div>
+        </div>
+        <div class="edu-yr">2022 — 2026</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-inst">Shree Niketan Higher Secondary School</div>
+          <div class="edu-deg">Higher Secondary Education &nbsp;·&nbsp; Tiruvallur, Tamil Nadu</div>
+        </div>
+        <div class="edu-yr">2021 — 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Projects</p>
+      <h2 class="sec-title">Work &amp; Builds</h2>
+    </div>
+
+    <!-- 01 -->
+    <div class="proj-card reveal">
+      <div class="proj-head">
+        <div>
+          <div class="proj-num">01 / 03</div>
+          <h3 class="proj-title">EcoShare — Sustainable Resource Sharing Platform</h3>
+        </div>
+        <div class="proj-period">Jan 2025 — Mar 2025</div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">A community-driven platform to promote resource sharing and waste reduction, integrating a machine learning model for intelligent donation-beneficiary matching and a bidding marketplace for recyclable materials supporting circular economy practices.</p>
+        <ul class="proj-list">
+          <li>Implemented a Random Forest ML model to match donations with suitable beneficiaries.</li>
+          <li>Built a bidding-based marketplace for recyclable materials supporting circular economy practices.</li>
+          <li>Designed end-to-end system architecture integrating frontend, backend, database, and ML components.</li>
+          <li>Developed a community-driven platform to promote resource sharing and waste reduction.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tech-tag">Random Forest (ML)</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="proj-footer">
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="proj-card reveal">
+      <div class="proj-head">
+        <div>
+          <div class="proj-num">02 / 03</div>
+          <h3 class="proj-title">AutoRev — AI-Based Project Evaluation System</h3>
+        </div>
+        <div class="proj-period">Aug 2025 — Oct 2025</div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">An AI-driven evaluation system using NLP, LLMs, and structured retrieval for assessing project proposals. Leverages semantic analysis via SBERT embeddings and AST-based call graph generation to significantly reduce manual review effort.</p>
+        <ul class="proj-list">
+          <li>Developed an AI-driven system using NLP, LLMs, and structured retrieval for evaluating project proposals.</li>
+          <li>Performed semantic module–function mapping using SBERT embeddings, cosine similarity, and fuzzy matching.</li>
+          <li>Generated AST-based call graphs and function behavior analysis using Tree-Sitter.</li>
+          <li>Reduced manual review effort through automated project evaluation pipelines.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">NLP</span>
+          <span class="tech-tag">LLM</span>
+          <span class="tech-tag">SBERT</span>
+          <span class="tech-tag">Cosine Similarity</span>
+          <span class="tech-tag">AST</span>
+          <span class="tech-tag">Tree-Sitter</span>
+        </div>
+      </div>
+      <div class="proj-footer">
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="proj-card reveal">
+      <div class="proj-head">
+        <div>
+          <div class="proj-num">03 / 03</div>
+          <h3 class="proj-title">Liver Disease Prediction System — ML-Based Health Risk Tool</h3>
+        </div>
+        <div class="proj-period">Nov 2025 — Jan 2026</div>
+      </div>
+      <div class="proj-body">
+        <p class="proj-desc">A machine learning health risk prediction tool with a Streamlit interface that processes demographic and clinical inputs to generate liver disease predictions, backed by secure PostgreSQL storage and deployed publicly on Render.</p>
+        <ul class="proj-list">
+          <li>Built a machine learning prediction system with a Streamlit-based interface for clinical data input.</li>
+          <li>Processed demographic and clinical inputs to generate accurate disease risk predictions.</li>
+          <li>Used PostgreSQL for secure patient data storage; deployed the application on Render.</li>
+          <li>Evaluated model performance using accuracy metrics to ensure reliable predictions.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Scikit-learn</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Streamlit</span>
+          <span class="tech-tag">ML Pipeline</span>
+          <span class="tech-tag">Render</span>
+        </div>
+      </div>
+      <div class="proj-footer">
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
+        <a href="https://liverdiseaseprediction-vqv8f2rj3mx9wjexlh2wdm.streamlit.app/" target="_blank" class="pl live"><i class="fas fa-external-link-alt" style="font-size:0.62rem"></i>Live Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<section id="skills">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Skills</p>
+      <h2 class="sec-title">Technical Expertise</h2>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">Backend</div>
+        <div class="skill-pills">
+          <span class="sp">Python</span><span class="sp">PHP</span><span class="sp">Flask</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">Database</div>
+        <div class="skill-pills">
+          <span class="sp">PostgreSQL</span><span class="sp">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">Data &amp; ML Libraries</div>
+        <div class="skill-pills">
+          <span class="sp">NumPy</span><span class="sp">Pandas</span><span class="sp">Scikit-learn</span><span class="sp">Matplotlib</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">Frontend</div>
+        <div class="skill-pills">
+          <span class="sp">HTML</span><span class="sp">CSS</span><span class="sp">JavaScript</span><span class="sp">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">Tools &amp; Platforms</div>
+        <div class="skill-pills">
+          <span class="sp">VS Code</span><span class="sp">GitHub</span><span class="sp">Power BI</span><span class="sp">AWS</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-lbl">CS Fundamentals</div>
+        <div class="skill-pills">
+          <span class="sp">OOP</span><span class="sp">DBMS</span><span class="sp">DSA</span><span class="sp">OS</span><span class="sp">Machine Learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CERTIFICATIONS ═══════════════════ -->
+<section id="certifications">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Certifications &amp; Training</p>
+      <h2 class="sec-title">Professional Learning</h2>
+      <p style="font-size:0.82rem; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-top:-24px; margin-bottom:30px; display:flex; align-items:center; gap:6px;">
+        <i class="fas fa-upload" style="font-size:0.72rem"></i>
+        Click on a certificate card to upload your certificate image
+      </p>
+    </div>
+
+    <div class="cert-grid reveal">
+
+      <!-- Cert 1 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap" onclick="triggerUpload('cert1-input')" id="cert1-wrap">
+          <div class="cert-placeholder" id="cert1-placeholder">
+            <i class="fas fa-certificate"></i>
+            <span>Click to upload certificate image</span>
+          </div>
+          <img id="cert1-img" src="" alt="Python for Data Science Certificate" style="display:none"/>
+          <div class="upload-overlay">
+            <i class="fas fa-upload"></i>
+            <span>Upload Image</span>
+          </div>
+          <div class="expand-hint" id="cert1-expand" style="display:none">
+            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+          </div>
+        </div>
+        <input type="file" class="cert-file-input" id="cert1-input" accept="image/*" onchange="loadCertImage(this,'cert1')"/>
+        <div class="cert-info">
+          <div class="cert-title">Python for Data Science</div>
+          <div class="cert-issuer-lbl">Infosys SpringBoard</div>
+        </div>
+      </div>
+
+      <!-- Cert 2 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap" onclick="triggerUpload('cert2-input')" id="cert2-wrap">
+          <div class="cert-placeholder" id="cert2-placeholder">
+            <i class="fas fa-certificate"></i>
+            <span>Click to upload certificate image</span>
+          </div>
+          <img id="cert2-img" src="" alt="Advanced Prompt Engineering Certificate" style="display:none"/>
+          <div class="upload-overlay">
+            <i class="fas fa-upload"></i>
+            <span>Upload Image</span>
+          </div>
+          <div class="expand-hint" id="cert2-expand" style="display:none">
+            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+          </div>
+        </div>
+        <input type="file" class="cert-file-input" id="cert2-input" accept="image/*" onchange="loadCertImage(this,'cert2')"/>
+        <div class="cert-info">
+          <div class="cert-title">Advanced Prompt Engineering</div>
+          <div class="cert-issuer-lbl">Simplilearn</div>
+        </div>
+      </div>
+
+      <!-- Cert 3 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap" onclick="triggerUpload('cert3-input')" id="cert3-wrap">
+          <div class="cert-placeholder" id="cert3-placeholder">
+            <i class="fas fa-certificate"></i>
+            <span>Click to upload certificate image</span>
+          </div>
+          <img id="cert3-img" src="" alt="MS Power BI Workshop Certificate" style="display:none"/>
+          <div class="upload-overlay">
+            <i class="fas fa-upload"></i>
+            <span>Upload Image</span>
+          </div>
+          <div class="expand-hint" id="cert3-expand" style="display:none">
+            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+          </div>
+        </div>
+        <input type="file" class="cert-file-input" id="cert3-input" accept="image/*" onchange="loadCertImage(this,'cert3')"/>
+        <div class="cert-info">
+          <div class="cert-title">MS Power BI Workshop</div>
+          <div class="cert-issuer-lbl">Office Masters</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tip for static hosting -->
+    <p class="reveal" style="margin-top:18px; font-size:0.76rem; color:var(--muted); font-family:'IBM Plex Mono',monospace; line-height:1.6;">
+      <i class="fas fa-info-circle" style="color:var(--accent); margin-right:5px"></i>
+      For GitHub Pages: replace the placeholder divs with
+      <code style="background:var(--surface); padding:1px 5px; border-radius:3px; font-size:0.73rem;">&lt;img src="certs/cert1.jpg"&gt;</code>
+      after adding your images to the repo.
+    </p>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="lightbox-close">ESC / CLICK TO CLOSE</span>
+  <img id="lightbox-img" src="" alt="Certificate"/>
+</div>
+
+<!-- ═══════════════════ LEADERSHIP ═══════════════════ -->
+<section id="leadership">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Leadership</p>
+      <h2 class="sec-title">Roles &amp; Activities</h2>
+    </div>
+    <div class="reveal">
+      <div class="lead-item">
+        <span class="lead-dash">—</span>
+        <span class="lead-txt"><strong>Visual &amp; Creative Head</strong> — AstroClub, College of Engineering Guindy</span>
+      </div>
+      <div class="lead-item">
+        <span class="lead-dash">—</span>
+        <span class="lead-txt"><strong>NSO Coordinator</strong> — Organized and participated in sports activities</span>
+      </div>
+      <div class="lead-item">
+        <span class="lead-dash">—</span>
+        <span class="lead-txt"><strong>Coordinator &amp; Performer</strong> — Stunners Variety Team</span>
+      </div>
+      <div class="lead-item">
+        <span class="lead-dash">—</span>
+        <span class="lead-txt"><strong>Interests:</strong> Sports, Music, Designing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact">
+  <div class="page">
+    <div class="reveal">
+      <p class="sec-label">Contact</p>
+      <h2 class="sec-title">Get In Touch</h2>
+    </div>
+    <div class="contact-layout reveal">
+      <div>
+        <p class="contact-intro">
+          Open to internships, full-time roles, and collaborative projects in data analysis
+          and machine learning. Feel free to reach out through any of the channels below.
+        </p>
+        <a href="mailto:shewak0707@gmail.com" class="cl-row">
+          <div class="cl-icon"><i class="fas fa-envelope"></i></div>
+          <div><div class="cl-sublbl">Email</div><div class="cl-lbl">shewak0707@gmail.com</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/shewak7/" target="_blank" class="cl-row">
+          <div class="cl-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div><div class="cl-sublbl">LinkedIn</div><div class="cl-lbl">linkedin.com/in/shewak7</div></div>
+        </a>
+        <a href="https://github.com/Shewak7" target="_blank" class="cl-row">
+          <div class="cl-icon" style="background:var(--surface); border-color:var(--border-dark); color:var(--ink-2);"><i class="fab fa-github"></i></div>
+          <div><div class="cl-sublbl">GitHub</div><div class="cl-lbl">github.com/Shewak7</div></div>
+        </a>
+        <a href="tel:+919626816717" class="cl-row">
+          <div class="cl-icon"><i class="fas fa-phone"></i></div>
+          <div><div class="cl-sublbl">Phone</div><div class="cl-lbl">+91 96268 16717</div></div>
+        </a>
+      </div>
+      <div class="form-box">
+        <div class="f-grp">
+          <label class="f-lbl">Name</label>
+          <input type="text" id="f-name" class="f-inp" placeholder="Your full name"/>
+        </div>
+        <div class="f-grp">
+          <label class="f-lbl">Email</label>
+          <input type="email" id="f-email" class="f-inp" placeholder="your@email.com"/>
+        </div>
+        <div class="f-grp">
+          <label class="f-lbl">Message</label>
+          <textarea id="f-msg" class="f-inp" placeholder="Your message..."></textarea>
+        </div>
+        <button class="btn-send" onclick="sendMsg()">
+          <i class="fas fa-paper-plane" style="font-size:0.66rem"></i>Send Message
+        </button>
+        <p id="f-ok">✓ Opening your mail client...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="foot-links">
+    <a href="mailto:shewak0707@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.linkedin.com/in/shewak7/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://github.com/Shewak7" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+  </div>
+  <div class="foot-copy">© 2025 <span>Shewak N</span> &nbsp;·&nbsp; Chennai, Tamil Nadu</div>
+</footer>
+
+<!-- ═══════════════════ JS ═══════════════════ -->
+<script>
+  /* ── Nav ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  /* ── Mobile menu ── */
+  function toggleMob() {
+    const m = document.getElementById('mob-menu');
+    m.classList.toggle('open');
+    const o = m.classList.contains('open');
+    document.getElementById('h1').style.transform = o ? 'translateY(6.5px) rotate(45deg)' : '';
+    document.getElementById('h2').style.opacity   = o ? '0' : '';
+    document.getElementById('h3').style.transform = o ? 'translateY(-6.5px) rotate(-45deg)' : '';
+  }
+
+  /* ── Reveal on scroll ── */
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i * 0.06) + 's';
+        e.target.classList.add('in');
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  /* ── Active nav ── */
+  const secs = document.querySelectorAll('section[id]');
+  const nls  = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    nls.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+  }, { passive: true });
+
+  /* ── Certificate image upload ── */
+  function triggerUpload(inputId) {
+    const img = document.getElementById(inputId.replace('-input', '-img'));
+    if (img && img.style.display !== 'none') {
+      // Already has image → open lightbox
+      openLightbox(img.src);
+      return;
+    }
+    document.getElementById(inputId).click();
+  }
+
+  function loadCertImage(input, certId) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img         = document.getElementById(certId + '-img');
+      const placeholder = document.getElementById(certId + '-placeholder');
+      const expandHint  = document.getElementById(certId + '-expand');
+
+      img.src = e.target.result;
+      img.style.display = 'block';
+      placeholder.style.display = 'none';
+      if (expandHint) expandHint.style.display = 'block';
+
+      // Re-wire click to lightbox
+      const wrap = document.getElementById(certId + '-wrap');
+      wrap.onclick = function() { openLightbox(e.target.result); };
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  /* ── Lightbox ── */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  document.getElementById('lightbox-img').addEventListener('click', e => e.stopPropagation());
+
+  /* ── Contact form ── */
+  function sendMsg() {
+    const n = document.getElementById('f-name').value.trim();
+    const e = document.getElementById('f-email').value.trim();
+    const m = document.getElementById('f-msg').value.trim();
+    if (!n || !e || !m) { alert('Please fill in all fields.'); return; }
+    const sub  = encodeURIComponent('Portfolio Inquiry from ' + n);
+    const body = encodeURIComponent('Hi Shewak,\n\nName: ' + n + '\nEmail: ' + e + '\n\n' + m);
+    window.location.href = 'mailto:shewak0707@gmail.com?subject=' + sub + '&body=' + body;
+    document.getElementById('f-ok').style.display = 'block';
+  }
+</script>
+</body>
+</html>
