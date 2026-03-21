@@ -10,20 +10,22 @@
 
   <style>
     :root {
-      --bg:            #F9F8F5;
-      --surface:       #F2F0EB;
-      --surface-2:     #ECEAE3;
-      --border:        #E0DDD5;
-      --border-dark:   #C9C4BA;
-      --ink:           #18160F;
-      --ink-2:         #3C3930;
-      --muted:         #7C7669;
-      --accent:        #1B4F72;
-      --accent-light:  #EAF2F8;
-      --accent-border: #BDD5EA;
-      --rule:          #D8D4CC;
-      --green:         #1A6640;
-      --green-bg:      #EAF4EE;
+      --bg:           #0F1117;
+      --surface:      #161B27;
+      --surface-2:    #1E2535;
+      --border:       #2A3145;
+      --border-light: #364058;
+      --ink:          #F0F4FF;
+      --ink-2:        #B8C4E0;
+      --muted:        #6B7A99;
+      --accent:       #4F8EF7;
+      --accent-dark:  #2D6BE4;
+      --accent-glow:  rgba(79,142,247,0.15);
+      --gold:         #E8B84B;
+      --gold-bg:      rgba(232,184,75,0.10);
+      --green:        #3ECFA0;
+      --green-bg:     rgba(62,207,160,0.10);
+      --rule:         #222840;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,35 +39,46 @@
       overflow-x: hidden;
     }
 
-    /* ─── Scrollbar ─── */
+    /* Subtle dot-grid background */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(79,142,247,0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
     ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
     /* ─── NAV ─── */
     #nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      background: rgba(249,248,245,0.97);
-      backdrop-filter: blur(18px) saturate(1.4);
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(20px) saturate(1.5);
       border-bottom: 1px solid var(--border);
       transition: box-shadow 0.3s;
     }
-    #nav.scrolled { box-shadow: 0 2px 24px rgba(24,22,15,0.08); }
+    #nav.scrolled {
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+      border-bottom-color: var(--border-light);
+    }
     .nav-inner {
-      max-width: 940px; margin: 0 auto; padding: 0 28px;
-      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      max-width: 960px; margin: 0 auto; padding: 0 28px;
+      height: 58px; display: flex; align-items: center; justify-content: space-between;
+      position: relative; z-index: 1;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.05rem; font-weight: 600;
+      font-size: 1.1rem; font-weight: 700;
       color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
     }
     .nav-logo em { color: var(--accent); font-style: normal; }
-    .nav-links { display: flex; gap: 26px; align-items: center; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
     .nav-link {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.67rem; color: var(--muted);
-      text-decoration: none; letter-spacing: 0.055em; text-transform: uppercase;
+      text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
       transition: color 0.2s; position: relative; padding-bottom: 2px;
     }
     .nav-link::after {
@@ -73,270 +86,322 @@
       height: 1px; background: var(--accent);
       transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
     }
-    .nav-link:hover { color: var(--accent); }
+    .nav-link:hover { color: var(--ink); }
     .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
     .nav-link.active { color: var(--accent); }
     .nav-btn {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
       color: var(--accent); border: 1px solid var(--accent);
-      padding: 6px 15px; border-radius: 4px; text-decoration: none; transition: all 0.2s;
+      padding: 6px 16px; border-radius: 5px; text-decoration: none;
+      transition: all 0.2s; background: var(--accent-glow);
     }
-    .nav-btn:hover { background: var(--accent); color: #fff; }
+    .nav-btn:hover { background: var(--accent); color: #fff; box-shadow: 0 0 20px rgba(79,142,247,0.4); }
 
-    /* Mobile hamburger */
-    .ham {
-      display: none; flex-direction: column; gap: 5px;
-      cursor: pointer; background: none; border: none; padding: 5px;
-    }
-    .ham span { display: block; width: 21px; height: 1.5px; background: var(--ink); transition: all 0.25s; }
+    .ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
+    .ham span { display: block; width: 21px; height: 1.5px; background: var(--ink-2); transition: all 0.25s; }
     #mob-menu {
       display: none; flex-direction: column;
-      background: var(--bg); border-top: 1px solid var(--border); padding: 6px 28px 18px;
+      background: var(--surface); border-top: 1px solid var(--border); padding: 6px 28px 18px;
     }
     #mob-menu.open { display: flex; }
     #mob-menu a {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem;
-      color: var(--ink-2); padding: 11px 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; letter-spacing: 0.04em;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
+      color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--border);
+      text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
     }
+    #mob-menu a:hover { color: var(--accent); }
     #mob-menu a:last-child { border-bottom: none; }
 
-    /* ─── PAGE CONTAINER ─── */
-    .page { max-width: 940px; margin: 0 auto; padding: 0 28px; }
-    section { padding: 78px 0; border-bottom: 1px solid var(--rule); }
+    /* ─── LAYOUT ─── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+    section { padding: 80px 0; border-bottom: 1px solid var(--rule); }
     section:last-of-type { border-bottom: none; }
 
     /* ─── SECTION HEADER ─── */
     .sec-label {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em;
+      font-size: 0.63rem; font-weight: 500; letter-spacing: 0.18em;
       text-transform: uppercase; color: var(--accent);
-      display: flex; align-items: center; gap: 10px; margin-bottom: 7px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
     }
     .sec-label::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
     .sec-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.85rem; font-weight: 600; color: var(--ink);
-      letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 38px;
+      font-size: 2rem; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 40px;
     }
 
     /* ─── REVEAL ─── */
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
     /* ─── PROFILE ─── */
-    #profile { padding-top: 122px; padding-bottom: 78px; }
-    .profile-layout { display: grid; grid-template-columns: 1fr 270px; gap: 48px; align-items: start; }
+    #profile { padding-top: 126px; padding-bottom: 80px; }
+    .profile-layout { display: grid; grid-template-columns: 1fr 290px; gap: 48px; align-items: start; }
     .profile-role {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent);
-      text-transform: uppercase; margin-bottom: 10px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
     }
     .profile-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.6rem, 5.5vw, 3.8rem); font-weight: 700;
-      letter-spacing: -0.03em; color: var(--ink); line-height: 1.08; margin-bottom: 18px;
+      font-size: clamp(2.8rem, 5.5vw, 4rem); font-weight: 700;
+      letter-spacing: -0.03em; color: var(--ink); line-height: 1.08; margin-bottom: 20px;
     }
-    .profile-bio { font-size: 0.93rem; color: var(--ink-2); line-height: 1.82; max-width: 520px; font-weight: 300; margin-bottom: 22px; }
-    .meta-row { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 22px; }
-    .meta-pill { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); }
+    .profile-name span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--green) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .profile-bio { font-size: 0.95rem; color: var(--ink-2); line-height: 1.82; max-width: 520px; font-weight: 300; margin-bottom: 24px; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 24px; }
+    .meta-pill { display: flex; align-items: center; gap: 7px; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); }
     .meta-pill i { color: var(--accent); font-size: 0.65rem; }
-    .icon-links { display: flex; gap: 8px; align-items: center; margin-bottom: 22px; }
+    .icon-links { display: flex; gap: 9px; align-items: center; margin-bottom: 24px; }
     .icon-link {
-      width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--border-dark);
+      width: 36px; height: 36px; border-radius: 7px;
+      border: 1px solid var(--border-light);
       display: flex; align-items: center; justify-content: center;
-      color: var(--ink-2); text-decoration: none; font-size: 0.84rem; transition: all 0.2s;
+      color: var(--muted); text-decoration: none; font-size: 0.88rem;
+      background: var(--surface); transition: all 0.2s;
     }
-    .icon-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .icon-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); box-shadow: 0 0 14px var(--accent-glow); }
     .btn-dl {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--ink); color: #fff;
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.69rem; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; font-weight: 500;
       letter-spacing: 0.07em; text-transform: uppercase;
-      padding: 9px 20px; border-radius: 4px; text-decoration: none;
-      border: 1px solid var(--ink); transition: all 0.2s;
+      padding: 11px 22px; border-radius: 6px; text-decoration: none;
+      border: 1px solid var(--accent); transition: all 0.25s;
+      box-shadow: 0 0 24px rgba(79,142,247,0.3);
     }
-    .btn-dl:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-dl:hover { background: var(--accent-dark); box-shadow: 0 0 32px rgba(79,142,247,0.5); transform: translateY(-1px); }
 
-    /* Profile side card — no stats */
+    /* Profile card */
     .profile-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 24px 20px;
-      display: flex; flex-direction: column; gap: 0;
+      border-radius: 12px; padding: 0; overflow: hidden;
+      display: flex; flex-direction: column;
     }
-    .card-block { padding: 18px 0; border-bottom: 1px solid var(--border); }
-    .card-block:first-child { padding-top: 0; }
-    .card-block:last-child { border-bottom: none; padding-bottom: 0; }
+    .card-block {
+      padding: 18px 22px; border-bottom: 1px solid var(--border);
+    }
+    .card-block:last-child { border-bottom: none; }
     .card-lbl {
       font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
     }
-    .card-text { font-size: 0.82rem; color: var(--ink-2); line-height: 1.65; }
-    .card-inst { font-size: 0.82rem; color: var(--ink-2); font-weight: 400; line-height: 1.5; }
-    .card-inst small { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 2px; }
-    .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 7px; vertical-align: middle; }
+    .card-text { font-size: 0.83rem; color: var(--ink-2); line-height: 1.65; }
+    .card-inst { font-size: 0.83rem; color: var(--ink-2); font-weight: 400; line-height: 1.5; }
+    .card-inst small { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 3px; }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--green); }
 
     /* ─── EDUCATION ─── */
-    .edu-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .edu-item {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+      padding: 22px 0; border-bottom: 1px solid var(--border);
+    }
     .edu-item:last-child { border-bottom: none; }
-    .edu-inst { font-family: 'Playfair Display', serif; font-size: 0.98rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
-    .edu-deg { font-size: 0.85rem; color: var(--ink-2); }
-    .edu-yr { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+    .edu-inst { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .edu-deg { font-size: 0.86rem; color: var(--ink-2); }
+    .edu-yr { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); white-space: nowrap; padding-top: 4px; background: var(--surface-2); padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); }
 
     /* ─── PROJECTS ─── */
-    .proj-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 18px; transition: border-color 0.25s, box-shadow 0.25s; }
-    .proj-card:hover { border-color: var(--border-dark); box-shadow: 0 4px 28px rgba(24,22,15,0.08); }
-    .proj-head { padding: 24px 26px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
-    .proj-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.09em; margin-bottom: 4px; }
-    .proj-title { font-family: 'Playfair Display', serif; font-size: 1.12rem; font-weight: 600; color: var(--ink); }
-    .proj-period { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); white-space: nowrap; padding-top: 4px; }
-    .proj-body { padding: 14px 26px 24px; }
-    .proj-desc { font-size: 0.88rem; color: var(--ink-2); line-height: 1.78; margin-bottom: 13px; }
-    .proj-list { list-style: none; margin-bottom: 16px; }
-    .proj-list li { font-size: 0.84rem; color: var(--ink-2); padding: 2.5px 0; display: flex; gap: 10px; }
+    .proj-card {
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      margin-bottom: 20px; background: var(--surface);
+      transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s;
+    }
+    .proj-card:hover { border-color: var(--accent); box-shadow: 0 8px 40px rgba(79,142,247,0.12); transform: translateY(-2px); }
+    .proj-head {
+      padding: 26px 28px 0;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
+    }
+    .proj-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; color: var(--muted); letter-spacing: 0.09em; margin-bottom: 5px; }
+    .proj-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); }
+    .proj-period {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); white-space: nowrap; padding-top: 4px;
+      background: var(--accent-glow); padding: 3px 10px; border-radius: 4px;
+      border: 1px solid rgba(79,142,247,0.25); white-space: nowrap;
+    }
+    .proj-body { padding: 16px 28px 26px; }
+    .proj-desc { font-size: 0.88rem; color: var(--ink-2); line-height: 1.8; margin-bottom: 14px; }
+    .proj-list { list-style: none; margin-bottom: 18px; }
+    .proj-list li { font-size: 0.84rem; color: var(--ink-2); padding: 3px 0; display: flex; gap: 11px; }
     .proj-list li::before { content: '—'; color: var(--accent); flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; }
-    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
     .tech-tag {
       font-family: 'IBM Plex Mono', monospace; font-size: 0.64rem; letter-spacing: 0.03em;
-      color: var(--accent); background: var(--accent-light);
-      border: 1px solid var(--accent-border); padding: 2px 9px; border-radius: 3px;
+      color: var(--accent); background: var(--accent-glow);
+      border: 1px solid rgba(79,142,247,0.3); padding: 3px 10px; border-radius: 4px;
     }
-    .proj-footer { border-top: 1px solid var(--border); padding: 12px 26px; display: flex; gap: 10px; background: var(--surface); }
-    .pl { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--ink-2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .proj-footer {
+      border-top: 1px solid var(--border); padding: 13px 28px;
+      display: flex; gap: 12px; background: var(--surface-2);
+    }
+    .pl { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .pl:hover { color: var(--accent); }
-    .pl.live { background: var(--accent); color: #fff; padding: 5px 13px; border-radius: 3px; transition: background 0.2s; }
-    .pl.live:hover { background: #154060; }
+    .pl.live {
+      background: var(--accent); color: #fff;
+      padding: 5px 14px; border-radius: 4px; transition: all 0.2s;
+      box-shadow: 0 0 14px rgba(79,142,247,0.35);
+    }
+    .pl.live:hover { background: var(--accent-dark); box-shadow: 0 0 22px rgba(79,142,247,0.5); }
 
     /* ─── SKILLS ─── */
-    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .skill-cat { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 18px; }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .skill-cat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .skill-cat:hover { border-color: var(--border-light); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
     .skill-cat-lbl {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 11px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
       display: flex; align-items: center; gap: 8px;
     }
-    .skill-cat-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border-dark); }
-    .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+    .skill-cat-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
     .sp {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--ink-2);
-      background: var(--bg); border: 1px solid var(--border-dark);
-      padding: 3px 9px; border-radius: 3px; transition: all 0.15s; cursor: default;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-2);
+      background: var(--surface-2); border: 1px solid var(--border-light);
+      padding: 4px 10px; border-radius: 4px; transition: all 0.15s; cursor: default;
     }
-    .sp:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .sp:hover { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 10px rgba(79,142,247,0.3); }
 
     /* ─── CERTIFICATIONS ─── */
     .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-
     .cert-card {
-      border: 1px solid var(--border); border-radius: 9px; overflow: hidden;
-      background: var(--surface); transition: border-color 0.25s, box-shadow 0.25s;
-      display: flex; flex-direction: column;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      background: var(--surface); display: flex; flex-direction: column;
+      transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s;
     }
-    .cert-card:hover { border-color: var(--border-dark); box-shadow: 0 4px 24px rgba(24,22,15,0.09); }
+    .cert-card:hover { border-color: var(--gold); box-shadow: 0 8px 36px rgba(232,184,75,0.1); transform: translateY(-2px); }
 
-    /* Image wrapper — click to expand */
     .cert-img-wrap {
       position: relative; width: 100%; aspect-ratio: 4/3;
       background: var(--surface-2); cursor: pointer; overflow: hidden;
       border-bottom: 1px solid var(--border);
     }
-    .cert-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.35s ease;
-    }
-    .cert-img-wrap:hover img { transform: scale(1.04); }
+    .cert-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+    .cert-img-wrap:hover img { transform: scale(1.05); }
 
-    /* Placeholder shown when no image set */
     .cert-placeholder {
       width: 100%; height: 100%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px; color: var(--muted);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
     }
-    .cert-placeholder i { font-size: 2rem; color: var(--border-dark); }
-    .cert-placeholder span { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); text-align: center; padding: 0 12px; }
+    .cert-placeholder i { font-size: 2.2rem; color: var(--border-light); }
+    .cert-placeholder span { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.07em; color: var(--muted); text-align: center; padding: 0 14px; line-height: 1.6; }
 
-    /* Upload overlay */
     .upload-overlay {
-      position: absolute; inset: 0; background: rgba(27,79,114,0.82);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 6px; opacity: 0; transition: opacity 0.2s;
+      position: absolute; inset: 0; background: rgba(79,142,247,0.82);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+      opacity: 0; transition: opacity 0.2s;
     }
     .cert-img-wrap:hover .upload-overlay { opacity: 1; }
-    .upload-overlay i { color: #fff; font-size: 1.3rem; }
-    .upload-overlay span { color: rgba(255,255,255,0.9); font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; }
+    .upload-overlay i { color: #fff; font-size: 1.4rem; }
+    .upload-overlay span { color: rgba(255,255,255,0.92); font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.06em; }
 
     .cert-file-input { display: none; }
 
-    /* Expand overlay (shown on image hover when image is set) */
     .expand-hint {
       position: absolute; bottom: 8px; right: 8px;
-      background: rgba(24,22,15,0.55); color: #fff;
+      background: rgba(15,17,23,0.7); color: var(--ink-2);
       font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
-      padding: 3px 8px; border-radius: 3px; opacity: 0; transition: opacity 0.2s;
+      padding: 3px 8px; border-radius: 4px; opacity: 0; transition: opacity 0.2s;
     }
     .cert-img-wrap:hover .expand-hint { opacity: 1; }
 
     .cert-info { padding: 16px 18px 18px; flex: 1; }
-    .cert-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
-    .cert-issuer-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; color: var(--muted); }
+    .cert-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 7px;
+      background: var(--gold-bg); border: 1px solid rgba(232,184,75,0.25);
+      color: var(--gold); font-size: 0.8rem; margin-bottom: 10px;
+    }
+    .cert-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; line-height: 1.4; }
+    .cert-issuer-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
 
     /* ─── LIGHTBOX ─── */
     #lightbox {
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(24,22,15,0.88); backdrop-filter: blur(6px);
+      background: rgba(10,12,18,0.94); backdrop-filter: blur(8px);
       align-items: center; justify-content: center; cursor: pointer;
     }
     #lightbox.open { display: flex; }
-    #lightbox img {
-      max-width: min(90vw, 860px); max-height: 88vh;
-      border-radius: 6px; box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-      cursor: default;
-    }
+    #lightbox img { max-width: min(90vw, 900px); max-height: 88vh; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.7); cursor: default; }
     #lightbox-close {
-      position: absolute; top: 20px; right: 24px;
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
-      color: rgba(255,255,255,0.55); cursor: pointer; letter-spacing: 0.06em;
-      transition: color 0.2s;
+      position: absolute; top: 22px; right: 28px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+      color: rgba(255,255,255,0.4); cursor: pointer; letter-spacing: 0.07em; transition: color 0.2s;
     }
     #lightbox-close:hover { color: #fff; }
 
     /* ─── LEADERSHIP ─── */
-    .lead-item { padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 12px; }
+    .lead-item {
+      padding: 15px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: baseline; gap: 13px;
+    }
     .lead-item:last-child { border-bottom: none; }
-    .lead-dash { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; font-size: 0.78rem; }
-    .lead-txt { font-size: 0.88rem; color: var(--ink-2); }
+    .lead-dash { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; font-size: 0.8rem; }
+    .lead-txt { font-size: 0.9rem; color: var(--ink-2); }
     .lead-txt strong { color: var(--ink); font-weight: 500; }
 
     /* ─── CONTACT ─── */
-    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
-    .contact-intro { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 26px; }
-    .cl-row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: all 0.2s; }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .contact-intro { font-size: 0.9rem; color: var(--ink-2); line-height: 1.8; margin-bottom: 28px; }
+    .cl-row {
+      display: flex; align-items: center; gap: 15px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      text-decoration: none; color: inherit; transition: all 0.2s;
+    }
     .cl-row:last-child { border-bottom: none; }
     .cl-row:hover .cl-lbl { color: var(--accent); }
-    .cl-icon { width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--accent-border); background: var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.82rem; flex-shrink: 0; }
-    .cl-sublbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; color: var(--muted); letter-spacing: 0.09em; text-transform: uppercase; }
-    .cl-lbl { font-size: 0.85rem; color: var(--ink-2); font-weight: 300; transition: color 0.2s; }
+    .cl-icon {
+      width: 36px; height: 36px; border-radius: 7px;
+      border: 1px solid rgba(79,142,247,0.3); background: var(--accent-glow);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 0.85rem; flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .cl-row:hover .cl-icon { box-shadow: 0 0 14px var(--accent-glow); }
+    .cl-sublbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .cl-lbl { font-size: 0.86rem; color: var(--ink-2); font-weight: 300; transition: color 0.2s; }
 
     /* Form */
-    .form-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 26px; }
-    .f-grp { margin-bottom: 13px; }
-    .f-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
-    .f-inp { width: 100%; background: var(--bg); border: 1px solid var(--border-dark); border-radius: 4px; padding: 9px 13px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.86rem; color: var(--ink); outline: none; transition: border-color 0.2s; }
-    .f-inp:focus { border-color: var(--accent); }
+    .form-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; }
+    .f-grp { margin-bottom: 14px; }
+    .f-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+    .f-inp {
+      width: 100%; background: var(--surface-2);
+      border: 1px solid var(--border-light); border-radius: 5px;
+      padding: 10px 14px; font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.88rem; color: var(--ink); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .f-inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
     .f-inp::placeholder { color: var(--muted); }
-    textarea.f-inp { resize: vertical; min-height: 100px; }
-    .btn-send { width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 0.69rem; letter-spacing: 0.09em; text-transform: uppercase; background: var(--ink); color: #fff; border: 1px solid var(--ink); border-radius: 4px; padding: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px; }
-    .btn-send:hover { background: var(--accent); border-color: var(--accent); }
-    #f-ok { display: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--green); text-align: center; margin-top: 10px; }
+    textarea.f-inp { resize: vertical; min-height: 110px; }
+    .btn-send {
+      width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      background: var(--accent); color: #fff;
+      border: 1px solid var(--accent); border-radius: 6px;
+      padding: 11px; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 0 20px rgba(79,142,247,0.25);
+    }
+    .btn-send:hover { background: var(--accent-dark); box-shadow: 0 0 28px rgba(79,142,247,0.45); }
+    #f-ok { display: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--green); text-align: center; margin-top: 12px; }
 
     /* ─── FOOTER ─── */
-    footer { background: var(--ink); padding: 32px 28px; text-align: center; }
-    .foot-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 14px; }
-    .foot-links a { color: rgba(255,255,255,0.4); font-size: 0.9rem; text-decoration: none; transition: color 0.2s; }
-    .foot-links a:hover { color: #fff; }
-    .foot-copy { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.35); }
-    .foot-copy span { color: rgba(255,255,255,0.6); }
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 36px 28px; text-align: center; position: relative; z-index: 1; }
+    .foot-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 16px; }
+    .foot-links a { color: var(--muted); font-size: 0.95rem; text-decoration: none; transition: color 0.2s; }
+    .foot-links a:hover { color: var(--accent); }
+    .foot-copy { font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; letter-spacing: 0.04em; color: var(--muted); }
+    .foot-copy span { color: var(--ink-2); }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 740px) {
@@ -347,19 +412,19 @@
       .skills-grid { grid-template-columns: 1fr 1fr; }
       .cert-grid { grid-template-columns: 1fr 1fr; }
       .contact-layout { grid-template-columns: 1fr; }
-      .proj-head { flex-direction: column; gap: 4px; }
+      .proj-head { flex-direction: column; gap: 8px; }
     }
     @media (max-width: 480px) {
       .skills-grid { grid-template-columns: 1fr; }
       .cert-grid { grid-template-columns: 1fr; }
       .page { padding: 0 18px; }
-      .profile-name { font-size: 2.4rem; }
+      .profile-name { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════ NAV ═══════════════════ -->
+<!-- ══════════ NAV ══════════ -->
 <nav id="nav">
   <div class="nav-inner">
     <a href="#profile" class="nav-logo"><em>S</em>hewak N</a>
@@ -391,14 +456,13 @@
   </div>
 </nav>
 
-<!-- ═══════════════════ PROFILE ═══════════════════ -->
+<!-- ══════════ PROFILE ══════════ -->
 <section id="profile">
   <div class="page">
     <div class="profile-layout reveal">
-      <!-- LEFT -->
       <div>
         <p class="profile-role">Data Analyst &amp; Machine Learning Engineer</p>
-        <h1 class="profile-name">Shewak N</h1>
+        <h1 class="profile-name">Shewak <span>N</span></h1>
         <p class="profile-bio">
           Aspiring Data Analyst with hands-on skills in Python, SQL, and Machine Learning.
           Experienced in data preprocessing, feature engineering, and building ML models using Scikit-learn.
@@ -410,47 +474,48 @@
           <span class="meta-pill"><i class="fas fa-envelope"></i>shewak0707@gmail.com</span>
         </div>
         <div class="icon-links">
-          <a href="mailto:shewak0707@gmail.com"           class="icon-link" title="Email"><i class="fas fa-envelope"></i></a>
-          <a href="https://www.linkedin.com/in/shewak7/"  class="icon-link" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://github.com/Shewak7"            class="icon-link" title="GitHub"   target="_blank"><i class="fab fa-github"></i></a>
-          <a href="tel:+919626816717"                     class="icon-link" title="Phone"><i class="fas fa-phone"></i></a>
+          <a href="mailto:shewak0707@gmail.com"          class="icon-link" title="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://www.linkedin.com/in/shewak7/" class="icon-link" title="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/Shewak7"           class="icon-link" title="GitHub"   target="_blank"><i class="fab fa-github"></i></a>
+          <a href="tel:+919626816717"                    class="icon-link" title="Phone"><i class="fas fa-phone"></i></a>
         </div>
         <a href="resume.pdf" download class="btn-dl">
-          <i class="fas fa-file-pdf" style="font-size:0.66rem"></i>Download Resume (PDF)
+          <i class="fas fa-file-pdf" style="font-size:0.68rem"></i>Download Resume (PDF)
         </a>
       </div>
-      <!-- RIGHT CARD — no stats -->
+
+      <!-- Side card -->
       <div class="profile-card">
         <div class="card-block">
           <div class="card-lbl">Objective</div>
           <p class="card-text">
-            Seeking internships or full-time roles in Data Analysis or ML Engineering to apply
-            analytical and problem-solving skills to real-world data-driven challenges.
+            Seeking internships or full-time roles in Data Analysis or ML Engineering to apply analytical
+            and problem-solving skills to real-world data-driven challenges.
           </p>
         </div>
         <div class="card-block">
           <div class="card-lbl">Availability</div>
-          <div class="card-text" style="margin-top:4px;">
+          <div class="card-text" style="margin-top:5px;">
             <span class="status-dot"></span>Open to Opportunities
           </div>
         </div>
         <div class="card-block">
           <div class="card-lbl">Institution</div>
-          <div class="card-inst" style="margin-top:4px;">
+          <div class="card-inst" style="margin-top:5px;">
             College of Engineering Guindy
-            <small>Anna University · B.Tech IT · 2022 – 2026</small>
+            <small>Anna University · B.Tech IT · 2022–2026</small>
           </div>
         </div>
         <div class="card-block">
           <div class="card-lbl">Location</div>
-          <div class="card-text" style="margin-top:4px;">Chennai, Tamil Nadu, India</div>
+          <div class="card-text" style="margin-top:5px;">Chennai, Tamil Nadu, India</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ EDUCATION ═══════════════════ -->
+<!-- ══════════ EDUCATION ══════════ -->
 <section id="education">
   <div class="page">
     <div class="reveal">
@@ -476,7 +541,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<!-- ══════════ PROJECTS ══════════ -->
 <section id="projects">
   <div class="page">
     <div class="reveal">
@@ -484,7 +549,6 @@
       <h2 class="sec-title">Work &amp; Builds</h2>
     </div>
 
-    <!-- 01 -->
     <div class="proj-card reveal">
       <div class="proj-head">
         <div>
@@ -502,20 +566,16 @@
           <li>Developed a community-driven platform to promote resource sharing and waste reduction.</li>
         </ul>
         <div class="tag-row">
-          <span class="tech-tag">Random Forest (ML)</span>
-          <span class="tech-tag">PHP</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">HTML</span>
-          <span class="tech-tag">Tailwind CSS</span>
+          <span class="tech-tag">Random Forest (ML)</span><span class="tech-tag">PHP</span>
+          <span class="tech-tag">PostgreSQL</span><span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">HTML</span><span class="tech-tag">Tailwind CSS</span>
         </div>
       </div>
       <div class="proj-footer">
-        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github"></i>GitHub</a>
       </div>
     </div>
 
-    <!-- 02 -->
     <div class="proj-card reveal">
       <div class="proj-head">
         <div>
@@ -533,21 +593,17 @@
           <li>Reduced manual review effort through automated project evaluation pipelines.</li>
         </ul>
         <div class="tag-row">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">NLP</span>
-          <span class="tech-tag">LLM</span>
-          <span class="tech-tag">SBERT</span>
-          <span class="tech-tag">Cosine Similarity</span>
-          <span class="tech-tag">AST</span>
+          <span class="tech-tag">Python</span><span class="tech-tag">NLP</span>
+          <span class="tech-tag">LLM</span><span class="tech-tag">SBERT</span>
+          <span class="tech-tag">Cosine Similarity</span><span class="tech-tag">AST</span>
           <span class="tech-tag">Tree-Sitter</span>
         </div>
       </div>
       <div class="proj-footer">
-        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github"></i>GitHub</a>
       </div>
     </div>
 
-    <!-- 03 -->
     <div class="proj-card reveal">
       <div class="proj-head">
         <div>
@@ -565,23 +621,22 @@
           <li>Evaluated model performance using accuracy metrics to ensure reliable predictions.</li>
         </ul>
         <div class="tag-row">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Scikit-learn</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Streamlit</span>
-          <span class="tech-tag">ML Pipeline</span>
-          <span class="tech-tag">Render</span>
+          <span class="tech-tag">Python</span><span class="tech-tag">Scikit-learn</span>
+          <span class="tech-tag">PostgreSQL</span><span class="tech-tag">Streamlit</span>
+          <span class="tech-tag">ML Pipeline</span><span class="tech-tag">Render</span>
         </div>
       </div>
       <div class="proj-footer">
-        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github" style="font-size:0.78rem"></i>GitHub</a>
-        <a href="https://liverdiseaseprediction-vqv8f2rj3mx9wjexlh2wdm.streamlit.app/" target="_blank" class="pl live"><i class="fas fa-external-link-alt" style="font-size:0.62rem"></i>Live Demo</a>
+        <a href="https://github.com/Shewak7" target="_blank" class="pl"><i class="fab fa-github"></i>GitHub</a>
+        <a href="https://liverdiseaseprediction-vqv8f2rj3mx9wjexlh2wdm.streamlit.app/" target="_blank" class="pl live">
+          <i class="fas fa-external-link-alt" style="font-size:0.62rem"></i>Live Demo
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<!-- ══════════ SKILLS ══════════ -->
 <section id="skills">
   <div class="page">
     <div class="reveal">
@@ -591,53 +646,41 @@
     <div class="skills-grid reveal">
       <div class="skill-cat">
         <div class="skill-cat-lbl">Backend</div>
-        <div class="skill-pills">
-          <span class="sp">Python</span><span class="sp">PHP</span><span class="sp">Flask</span>
-        </div>
+        <div class="skill-pills"><span class="sp">Python</span><span class="sp">PHP</span><span class="sp">Flask</span></div>
       </div>
       <div class="skill-cat">
         <div class="skill-cat-lbl">Database</div>
-        <div class="skill-pills">
-          <span class="sp">PostgreSQL</span><span class="sp">MySQL</span>
-        </div>
+        <div class="skill-pills"><span class="sp">PostgreSQL</span><span class="sp">MySQL</span></div>
       </div>
       <div class="skill-cat">
         <div class="skill-cat-lbl">Data &amp; ML Libraries</div>
-        <div class="skill-pills">
-          <span class="sp">NumPy</span><span class="sp">Pandas</span><span class="sp">Scikit-learn</span><span class="sp">Matplotlib</span>
-        </div>
+        <div class="skill-pills"><span class="sp">NumPy</span><span class="sp">Pandas</span><span class="sp">Scikit-learn</span><span class="sp">Matplotlib</span></div>
       </div>
       <div class="skill-cat">
         <div class="skill-cat-lbl">Frontend</div>
-        <div class="skill-pills">
-          <span class="sp">HTML</span><span class="sp">CSS</span><span class="sp">JavaScript</span><span class="sp">Tailwind CSS</span>
-        </div>
+        <div class="skill-pills"><span class="sp">HTML</span><span class="sp">CSS</span><span class="sp">JavaScript</span><span class="sp">Tailwind CSS</span></div>
       </div>
       <div class="skill-cat">
         <div class="skill-cat-lbl">Tools &amp; Platforms</div>
-        <div class="skill-pills">
-          <span class="sp">VS Code</span><span class="sp">GitHub</span><span class="sp">Power BI</span><span class="sp">AWS</span>
-        </div>
+        <div class="skill-pills"><span class="sp">VS Code</span><span class="sp">GitHub</span><span class="sp">Power BI</span><span class="sp">AWS</span></div>
       </div>
       <div class="skill-cat">
         <div class="skill-cat-lbl">CS Fundamentals</div>
-        <div class="skill-pills">
-          <span class="sp">OOP</span><span class="sp">DBMS</span><span class="sp">DSA</span><span class="sp">OS</span><span class="sp">Machine Learning</span>
-        </div>
+        <div class="skill-pills"><span class="sp">OOP</span><span class="sp">DBMS</span><span class="sp">DSA</span><span class="sp">OS</span><span class="sp">Machine Learning</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ CERTIFICATIONS ═══════════════════ -->
+<!-- ══════════ CERTIFICATIONS ══════════ -->
 <section id="certifications">
   <div class="page">
     <div class="reveal">
       <p class="sec-label">Certifications &amp; Training</p>
       <h2 class="sec-title">Professional Learning</h2>
-      <p style="font-size:0.82rem; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-top:-24px; margin-bottom:30px; display:flex; align-items:center; gap:6px;">
-        <i class="fas fa-upload" style="font-size:0.72rem"></i>
-        Click on a certificate card to upload your certificate image
+      <p style="font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); margin-top:-26px; margin-bottom:32px; display:flex; align-items:center; gap:7px;">
+        <i class="fas fa-upload" style="color:var(--accent); font-size:0.68rem"></i>
+        Click on any card to upload your certificate image — click again to view fullscreen
       </p>
     </div>
 
@@ -650,17 +693,15 @@
             <i class="fas fa-certificate"></i>
             <span>Click to upload certificate image</span>
           </div>
-          <img id="cert1-img" src="" alt="Python for Data Science Certificate" style="display:none"/>
-          <div class="upload-overlay">
-            <i class="fas fa-upload"></i>
-            <span>Upload Image</span>
-          </div>
+          <img id="cert1-img" src="" alt="Python for Data Science" style="display:none"/>
+          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
           <div class="expand-hint" id="cert1-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert1-input" accept="image/*" onchange="loadCertImage(this,'cert1')"/>
+        <input type="file" class="cert-file-input" id="cert1-input" accept="image/*" onchange="loadCert(this,'cert1')"/>
         <div class="cert-info">
+          <div class="cert-badge"><i class="fab fa-python"></i></div>
           <div class="cert-title">Python for Data Science</div>
           <div class="cert-issuer-lbl">Infosys SpringBoard</div>
         </div>
@@ -673,17 +714,15 @@
             <i class="fas fa-certificate"></i>
             <span>Click to upload certificate image</span>
           </div>
-          <img id="cert2-img" src="" alt="Advanced Prompt Engineering Certificate" style="display:none"/>
-          <div class="upload-overlay">
-            <i class="fas fa-upload"></i>
-            <span>Upload Image</span>
-          </div>
+          <img id="cert2-img" src="" alt="Advanced Prompt Engineering" style="display:none"/>
+          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
           <div class="expand-hint" id="cert2-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert2-input" accept="image/*" onchange="loadCertImage(this,'cert2')"/>
+        <input type="file" class="cert-file-input" id="cert2-input" accept="image/*" onchange="loadCert(this,'cert2')"/>
         <div class="cert-info">
+          <div class="cert-badge"><i class="fas fa-brain"></i></div>
           <div class="cert-title">Advanced Prompt Engineering</div>
           <div class="cert-issuer-lbl">Simplilearn</div>
         </div>
@@ -696,17 +735,15 @@
             <i class="fas fa-certificate"></i>
             <span>Click to upload certificate image</span>
           </div>
-          <img id="cert3-img" src="" alt="MS Power BI Workshop Certificate" style="display:none"/>
-          <div class="upload-overlay">
-            <i class="fas fa-upload"></i>
-            <span>Upload Image</span>
-          </div>
+          <img id="cert3-img" src="" alt="MS Power BI Workshop" style="display:none"/>
+          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
           <div class="expand-hint" id="cert3-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:4px; font-size:0.58rem"></i>View
+            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert3-input" accept="image/*" onchange="loadCertImage(this,'cert3')"/>
+        <input type="file" class="cert-file-input" id="cert3-input" accept="image/*" onchange="loadCert(this,'cert3')"/>
         <div class="cert-info">
+          <div class="cert-badge"><i class="fas fa-chart-bar"></i></div>
           <div class="cert-title">MS Power BI Workshop</div>
           <div class="cert-issuer-lbl">Office Masters</div>
         </div>
@@ -714,12 +751,9 @@
 
     </div>
 
-    <!-- Tip for static hosting -->
-    <p class="reveal" style="margin-top:18px; font-size:0.76rem; color:var(--muted); font-family:'IBM Plex Mono',monospace; line-height:1.6;">
+    <p class="reveal" style="margin-top:20px; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); line-height:1.65;">
       <i class="fas fa-info-circle" style="color:var(--accent); margin-right:5px"></i>
-      For GitHub Pages: replace the placeholder divs with
-      <code style="background:var(--surface); padding:1px 5px; border-radius:3px; font-size:0.73rem;">&lt;img src="certs/cert1.jpg"&gt;</code>
-      after adding your images to the repo.
+      For GitHub Pages: add images to a <code style="background:var(--surface-2); padding:1px 6px; border-radius:3px; color:var(--ink-2);">certs/</code> folder and set <code style="background:var(--surface-2); padding:1px 6px; border-radius:3px; color:var(--ink-2);">src="certs/cert1.jpg"</code> on each image tag.
     </p>
   </div>
 </section>
@@ -730,7 +764,7 @@
   <img id="lightbox-img" src="" alt="Certificate"/>
 </div>
 
-<!-- ═══════════════════ LEADERSHIP ═══════════════════ -->
+<!-- ══════════ LEADERSHIP ══════════ -->
 <section id="leadership">
   <div class="page">
     <div class="reveal">
@@ -758,7 +792,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<!-- ══════════ CONTACT ══════════ -->
 <section id="contact">
   <div class="page">
     <div class="reveal">
@@ -768,8 +802,8 @@
     <div class="contact-layout reveal">
       <div>
         <p class="contact-intro">
-          Open to internships, full-time roles, and collaborative projects in data analysis
-          and machine learning. Feel free to reach out through any of the channels below.
+          Open to internships, full-time roles, and collaborative projects in data analysis and machine learning.
+          Feel free to reach out through any of the channels below.
         </p>
         <a href="mailto:shewak0707@gmail.com" class="cl-row">
           <div class="cl-icon"><i class="fas fa-envelope"></i></div>
@@ -780,7 +814,9 @@
           <div><div class="cl-sublbl">LinkedIn</div><div class="cl-lbl">linkedin.com/in/shewak7</div></div>
         </a>
         <a href="https://github.com/Shewak7" target="_blank" class="cl-row">
-          <div class="cl-icon" style="background:var(--surface); border-color:var(--border-dark); color:var(--ink-2);"><i class="fab fa-github"></i></div>
+          <div class="cl-icon" style="color:var(--ink-2); background:var(--surface-2); border-color:var(--border-light);">
+            <i class="fab fa-github"></i>
+          </div>
           <div><div class="cl-sublbl">GitHub</div><div class="cl-lbl">github.com/Shewak7</div></div>
         </a>
         <a href="tel:+919626816717" class="cl-row">
@@ -810,24 +846,24 @@
   </div>
 </section>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<!-- ══════════ FOOTER ══════════ -->
 <footer>
   <div class="foot-links">
-    <a href="mailto:shewak0707@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-    <a href="https://www.linkedin.com/in/shewak7/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-    <a href="https://github.com/Shewak7" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="mailto:shewak0707@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.linkedin.com/in/shewak7/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://github.com/Shewak7" target="_blank"><i class="fab fa-github"></i></a>
   </div>
   <div class="foot-copy">© 2025 <span>Shewak N</span> &nbsp;·&nbsp; Chennai, Tamil Nadu</div>
 </footer>
 
-<!-- ═══════════════════ JS ═══════════════════ -->
+<!-- ══════════ JS ══════════ -->
 <script>
-  /* ── Nav ── */
+  /* Nav scroll */
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
   }, { passive: true });
 
-  /* ── Mobile menu ── */
+  /* Mobile menu */
   function toggleMob() {
     const m = document.getElementById('mob-menu');
     m.classList.toggle('open');
@@ -837,7 +873,7 @@
     document.getElementById('h3').style.transform = o ? 'translateY(-6.5px) rotate(-45deg)' : '';
   }
 
-  /* ── Reveal on scroll ── */
+  /* Scroll reveal */
   const ro = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -849,7 +885,7 @@
   }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-  /* ── Active nav ── */
+  /* Active nav link */
   const secs = document.querySelectorAll('section[id]');
   const nls  = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
@@ -858,38 +894,34 @@
     nls.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
   }, { passive: true });
 
-  /* ── Certificate image upload ── */
+  /* Certificate upload */
   function triggerUpload(inputId) {
-    const img = document.getElementById(inputId.replace('-input', '-img'));
+    const certId = inputId.replace('-input', '');
+    const img = document.getElementById(certId + '-img');
     if (img && img.style.display !== 'none') {
-      // Already has image → open lightbox
-      openLightbox(img.src);
-      return;
+      openLightbox(img.src); return;
     }
     document.getElementById(inputId).click();
   }
 
-  function loadCertImage(input, certId) {
+  function loadCert(input, certId) {
     if (!input.files || !input.files[0]) return;
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = e => {
       const img         = document.getElementById(certId + '-img');
       const placeholder = document.getElementById(certId + '-placeholder');
       const expandHint  = document.getElementById(certId + '-expand');
-
       img.src = e.target.result;
       img.style.display = 'block';
       placeholder.style.display = 'none';
       if (expandHint) expandHint.style.display = 'block';
-
-      // Re-wire click to lightbox
       const wrap = document.getElementById(certId + '-wrap');
-      wrap.onclick = function() { openLightbox(e.target.result); };
+      wrap.onclick = () => openLightbox(e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
   }
 
-  /* ── Lightbox ── */
+  /* Lightbox */
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('open');
@@ -902,7 +934,7 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   document.getElementById('lightbox-img').addEventListener('click', e => e.stopPropagation());
 
-  /* ── Contact form ── */
+  /* Contact form */
   function sendMsg() {
     const n = document.getElementById('f-name').value.trim();
     const e = document.getElementById('f-email').value.trim();
