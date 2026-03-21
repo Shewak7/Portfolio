@@ -39,7 +39,6 @@
       overflow-x: hidden;
     }
 
-    /* Subtle dot-grid background */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -59,25 +58,17 @@
       border-bottom: 1px solid var(--border);
       transition: box-shadow 0.3s;
     }
-    #nav.scrolled {
-      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
-      border-bottom-color: var(--border-light);
-    }
+    #nav.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,0.5); border-bottom-color: var(--border-light); }
     .nav-inner {
       max-width: 960px; margin: 0 auto; padding: 0 28px;
       height: 58px; display: flex; align-items: center; justify-content: space-between;
       position: relative; z-index: 1;
     }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem; font-weight: 700;
-      color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
-    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
     .nav-logo em { color: var(--accent); font-style: normal; }
     .nav-links { display: flex; gap: 28px; align-items: center; }
     .nav-link {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.67rem; color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; color: var(--muted);
       text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
       transition: color 0.2s; position: relative; padding-bottom: 2px;
     }
@@ -90,8 +81,8 @@
     .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
     .nav-link.active { color: var(--accent); }
     .nav-btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
       color: var(--accent); border: 1px solid var(--accent);
       padding: 6px 16px; border-radius: 5px; text-decoration: none;
       transition: all 0.2s; background: var(--accent-glow);
@@ -100,16 +91,9 @@
 
     .ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
     .ham span { display: block; width: 21px; height: 1.5px; background: var(--ink-2); transition: all 0.25s; }
-    #mob-menu {
-      display: none; flex-direction: column;
-      background: var(--surface); border-top: 1px solid var(--border); padding: 6px 28px 18px;
-    }
+    #mob-menu { display: none; flex-direction: column; background: var(--surface); border-top: 1px solid var(--border); padding: 6px 28px 18px; }
     #mob-menu.open { display: flex; }
-    #mob-menu a {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
-      color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
-    }
+    #mob-menu a { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-2); padding: 12px 0; border-bottom: 1px solid var(--border); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
     #mob-menu a:hover { color: var(--accent); }
     #mob-menu a:last-child { border-bottom: none; }
 
@@ -120,17 +104,12 @@
 
     /* ─── SECTION HEADER ─── */
     .sec-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.63rem; font-weight: 500; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--accent);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
       display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
     }
     .sec-label::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
-    .sec-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem; font-weight: 700; color: var(--ink);
-      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 40px;
-    }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 40px; }
 
     /* ─── REVEAL ─── */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
@@ -139,27 +118,16 @@
     /* ─── PROFILE ─── */
     #profile { padding-top: 126px; padding-bottom: 80px; }
     .profile-layout { display: grid; grid-template-columns: 1fr 290px; gap: 48px; align-items: start; }
-    .profile-role {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
-      letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
-    }
-    .profile-name {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 5.5vw, 4rem); font-weight: 700;
-      letter-spacing: -0.03em; color: var(--ink); line-height: 1.08; margin-bottom: 20px;
-    }
-    .profile-name span {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--green) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .profile-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .profile-name { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5.5vw, 4rem); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); line-height: 1.08; margin-bottom: 20px; }
+    .profile-name span { background: linear-gradient(135deg, var(--accent) 0%, var(--green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .profile-bio { font-size: 0.95rem; color: var(--ink-2); line-height: 1.82; max-width: 520px; font-weight: 300; margin-bottom: 24px; }
     .meta-row { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 24px; }
     .meta-pill { display: flex; align-items: center; gap: 7px; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); }
     .meta-pill i { color: var(--accent); font-size: 0.65rem; }
     .icon-links { display: flex; gap: 9px; align-items: center; margin-bottom: 24px; }
     .icon-link {
-      width: 36px; height: 36px; border-radius: 7px;
-      border: 1px solid var(--border-light);
+      width: 36px; height: 36px; border-radius: 7px; border: 1px solid var(--border-light);
       display: flex; align-items: center; justify-content: center;
       color: var(--muted); text-decoration: none; font-size: 0.88rem;
       background: var(--surface); transition: all 0.2s;
@@ -177,172 +145,114 @@
     .btn-dl:hover { background: var(--accent-dark); box-shadow: 0 0 32px rgba(79,142,247,0.5); transform: translateY(-1px); }
 
     /* Profile card */
-    .profile-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 0; overflow: hidden;
-      display: flex; flex-direction: column;
-    }
-    .card-block {
-      padding: 18px 22px; border-bottom: 1px solid var(--border);
-    }
+    .profile-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+    .card-block { padding: 18px 22px; border-bottom: 1px solid var(--border); }
     .card-block:last-child { border-bottom: none; }
-    .card-lbl {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
-    }
+    .card-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.59rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
     .card-text { font-size: 0.83rem; color: var(--ink-2); line-height: 1.65; }
     .card-inst { font-size: 0.83rem; color: var(--ink-2); font-weight: 400; line-height: 1.5; }
     .card-inst small { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 3px; }
     .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 8px; vertical-align: middle; box-shadow: 0 0 8px var(--green); }
 
     /* ─── EDUCATION ─── */
-    .edu-item {
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
-      padding: 22px 0; border-bottom: 1px solid var(--border);
-    }
+    .edu-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--border); }
     .edu-item:last-child { border-bottom: none; }
     .edu-inst { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
     .edu-deg { font-size: 0.86rem; color: var(--ink-2); }
-    .edu-yr { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); white-space: nowrap; padding-top: 4px; background: var(--surface-2); padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); }
+    .edu-yr { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); white-space: nowrap; background: var(--surface-2); padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); }
 
     /* ─── PROJECTS ─── */
-    .proj-card {
-      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
-      margin-bottom: 20px; background: var(--surface);
-      transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s;
-    }
+    .proj-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; background: var(--surface); transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s; }
     .proj-card:hover { border-color: var(--accent); box-shadow: 0 8px 40px rgba(79,142,247,0.12); transform: translateY(-2px); }
-    .proj-head {
-      padding: 26px 28px 0;
-      display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
-    }
+    .proj-head { padding: 26px 28px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
     .proj-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; color: var(--muted); letter-spacing: 0.09em; margin-bottom: 5px; }
     .proj-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); }
-    .proj-period {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
-      color: var(--accent); white-space: nowrap; padding-top: 4px;
-      background: var(--accent-glow); padding: 3px 10px; border-radius: 4px;
-      border: 1px solid rgba(79,142,247,0.25); white-space: nowrap;
-    }
+    .proj-period { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--accent); background: var(--accent-glow); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(79,142,247,0.25); white-space: nowrap; flex-shrink: 0; }
     .proj-body { padding: 16px 28px 26px; }
     .proj-desc { font-size: 0.88rem; color: var(--ink-2); line-height: 1.8; margin-bottom: 14px; }
     .proj-list { list-style: none; margin-bottom: 18px; }
     .proj-list li { font-size: 0.84rem; color: var(--ink-2); padding: 3px 0; display: flex; gap: 11px; }
     .proj-list li::before { content: '—'; color: var(--accent); flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; }
     .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tech-tag {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.64rem; letter-spacing: 0.03em;
-      color: var(--accent); background: var(--accent-glow);
-      border: 1px solid rgba(79,142,247,0.3); padding: 3px 10px; border-radius: 4px;
-    }
-    .proj-footer {
-      border-top: 1px solid var(--border); padding: 13px 28px;
-      display: flex; gap: 12px; background: var(--surface-2);
-    }
+    .tech-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.64rem; letter-spacing: 0.03em; color: var(--accent); background: var(--accent-glow); border: 1px solid rgba(79,142,247,0.3); padding: 3px 10px; border-radius: 4px; }
+    .proj-footer { border-top: 1px solid var(--border); padding: 13px 28px; display: flex; gap: 12px; background: var(--surface-2); }
     .pl { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .pl:hover { color: var(--accent); }
-    .pl.live {
-      background: var(--accent); color: #fff;
-      padding: 5px 14px; border-radius: 4px; transition: all 0.2s;
-      box-shadow: 0 0 14px rgba(79,142,247,0.35);
-    }
+    .pl.live { background: var(--accent); color: #fff; padding: 5px 14px; border-radius: 4px; transition: all 0.2s; box-shadow: 0 0 14px rgba(79,142,247,0.35); }
     .pl.live:hover { background: var(--accent-dark); box-shadow: 0 0 22px rgba(79,142,247,0.5); }
 
     /* ─── SKILLS ─── */
     .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .skill-cat {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 20px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
+    .skill-cat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.2s, box-shadow 0.2s; }
     .skill-cat:hover { border-color: var(--border-light); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-    .skill-cat-lbl {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
-      display: flex; align-items: center; gap: 8px;
-    }
+    .skill-cat-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .skill-cat-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
     .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-    .sp {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-2);
-      background: var(--surface-2); border: 1px solid var(--border-light);
-      padding: 4px 10px; border-radius: 4px; transition: all 0.15s; cursor: default;
-    }
+    .sp { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--border-light); padding: 4px 10px; border-radius: 4px; transition: all 0.15s; cursor: default; }
     .sp:hover { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 10px rgba(79,142,247,0.3); }
 
     /* ─── CERTIFICATIONS ─── */
     .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
     .cert-card {
       border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
       background: var(--surface); display: flex; flex-direction: column;
       transition: border-color 0.25s, box-shadow 0.3s, transform 0.25s;
     }
-    .cert-card:hover { border-color: var(--gold); box-shadow: 0 8px 36px rgba(232,184,75,0.1); transform: translateY(-2px); }
+    .cert-card:hover { border-color: var(--gold); box-shadow: 0 8px 36px rgba(232,184,75,0.12); transform: translateY(-3px); }
 
+    /* Image area — static, click to open lightbox */
     .cert-img-wrap {
       position: relative; width: 100%; aspect-ratio: 4/3;
-      background: var(--surface-2); cursor: pointer; overflow: hidden;
-      border-bottom: 1px solid var(--border);
+      overflow: hidden; border-bottom: 1px solid var(--border);
+      cursor: pointer; background: var(--surface-2);
     }
-    .cert-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+    .cert-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.35s ease;
+      display: block;
+    }
     .cert-img-wrap:hover img { transform: scale(1.05); }
 
-    .cert-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    /* Hover overlay — view fullscreen */
+    .cert-overlay {
+      position: absolute; inset: 0;
+      background: rgba(15,17,23,0.65);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      opacity: 0; transition: opacity 0.25s;
     }
-    .cert-placeholder i { font-size: 2.2rem; color: var(--border-light); }
-    .cert-placeholder span { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.07em; color: var(--muted); text-align: center; padding: 0 14px; line-height: 1.6; }
+    .cert-img-wrap:hover .cert-overlay { opacity: 1; }
+    .cert-overlay i { color: #fff; font-size: 1.5rem; }
+    .cert-overlay span { color: rgba(255,255,255,0.88); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; }
 
-    .upload-overlay {
-      position: absolute; inset: 0; background: rgba(79,142,247,0.82);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
-      opacity: 0; transition: opacity 0.2s;
-    }
-    .cert-img-wrap:hover .upload-overlay { opacity: 1; }
-    .upload-overlay i { color: #fff; font-size: 1.4rem; }
-    .upload-overlay span { color: rgba(255,255,255,0.92); font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; letter-spacing: 0.06em; }
-
-    .cert-file-input { display: none; }
-
-    .expand-hint {
-      position: absolute; bottom: 8px; right: 8px;
-      background: rgba(15,17,23,0.7); color: var(--ink-2);
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
-      padding: 3px 8px; border-radius: 4px; opacity: 0; transition: opacity 0.2s;
-    }
-    .cert-img-wrap:hover .expand-hint { opacity: 1; }
-
-    .cert-info { padding: 16px 18px 18px; flex: 1; }
-    .cert-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px; border-radius: 7px;
-      background: var(--gold-bg); border: 1px solid rgba(232,184,75,0.25);
-      color: var(--gold); font-size: 0.8rem; margin-bottom: 10px;
-    }
+    .cert-info { padding: 16px 18px 20px; flex: 1; }
+    .cert-badge { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 7px; background: var(--gold-bg); border: 1px solid rgba(232,184,75,0.25); color: var(--gold); font-size: 0.82rem; margin-bottom: 10px; }
     .cert-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; line-height: 1.4; }
     .cert-issuer-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
 
     /* ─── LIGHTBOX ─── */
     #lightbox {
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(10,12,18,0.94); backdrop-filter: blur(8px);
+      background: rgba(10,12,18,0.96); backdrop-filter: blur(10px);
       align-items: center; justify-content: center; cursor: pointer;
     }
     #lightbox.open { display: flex; }
-    #lightbox img { max-width: min(90vw, 900px); max-height: 88vh; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.7); cursor: default; }
-    #lightbox-close {
+    #lightbox img { max-width: min(92vw, 960px); max-height: 90vh; border-radius: 8px; box-shadow: 0 32px 80px rgba(0,0,0,0.8); cursor: default; }
+    #lb-close {
       position: absolute; top: 22px; right: 28px;
       font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
-      color: rgba(255,255,255,0.4); cursor: pointer; letter-spacing: 0.07em; transition: color 0.2s;
+      color: rgba(255,255,255,0.4); cursor: pointer; letter-spacing: 0.08em; transition: color 0.2s;
+      display: flex; align-items: center; gap: 6px;
     }
-    #lightbox-close:hover { color: #fff; }
+    #lb-close:hover { color: #fff; }
+    #lb-caption {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+      color: rgba(255,255,255,0.5); letter-spacing: 0.07em; white-space: nowrap;
+    }
 
     /* ─── LEADERSHIP ─── */
-    .lead-item {
-      padding: 15px 0; border-bottom: 1px solid var(--border);
-      display: flex; align-items: baseline; gap: 13px;
-    }
+    .lead-item { padding: 15px 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 13px; }
     .lead-item:last-child { border-bottom: none; }
     .lead-dash { font-family: 'IBM Plex Mono', monospace; color: var(--accent); flex-shrink: 0; font-size: 0.8rem; }
     .lead-txt { font-size: 0.9rem; color: var(--ink-2); }
@@ -351,47 +261,22 @@
     /* ─── CONTACT ─── */
     .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
     .contact-intro { font-size: 0.9rem; color: var(--ink-2); line-height: 1.8; margin-bottom: 28px; }
-    .cl-row {
-      display: flex; align-items: center; gap: 15px;
-      padding: 14px 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; color: inherit; transition: all 0.2s;
-    }
+    .cl-row { display: flex; align-items: center; gap: 15px; padding: 14px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: all 0.2s; }
     .cl-row:last-child { border-bottom: none; }
     .cl-row:hover .cl-lbl { color: var(--accent); }
-    .cl-icon {
-      width: 36px; height: 36px; border-radius: 7px;
-      border: 1px solid rgba(79,142,247,0.3); background: var(--accent-glow);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent); font-size: 0.85rem; flex-shrink: 0;
-      transition: all 0.2s;
-    }
+    .cl-icon { width: 36px; height: 36px; border-radius: 7px; border: 1px solid rgba(79,142,247,0.3); background: var(--accent-glow); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.85rem; flex-shrink: 0; transition: all 0.2s; }
     .cl-row:hover .cl-icon { box-shadow: 0 0 14px var(--accent-glow); }
     .cl-sublbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
     .cl-lbl { font-size: 0.86rem; color: var(--ink-2); font-weight: 300; transition: color 0.2s; }
 
-    /* Form */
     .form-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; }
     .f-grp { margin-bottom: 14px; }
     .f-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.61rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
-    .f-inp {
-      width: 100%; background: var(--surface-2);
-      border: 1px solid var(--border-light); border-radius: 5px;
-      padding: 10px 14px; font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 0.88rem; color: var(--ink); outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
+    .f-inp { width: 100%; background: var(--surface-2); border: 1px solid var(--border-light); border-radius: 5px; padding: 10px 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.88rem; color: var(--ink); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
     .f-inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
     .f-inp::placeholder { color: var(--muted); }
     textarea.f-inp { resize: vertical; min-height: 110px; }
-    .btn-send {
-      width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
-      letter-spacing: 0.09em; text-transform: uppercase;
-      background: var(--accent); color: #fff;
-      border: 1px solid var(--accent); border-radius: 6px;
-      padding: 11px; cursor: pointer; transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 0 20px rgba(79,142,247,0.25);
-    }
+    .btn-send { width: 100%; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; background: var(--accent); color: #fff; border: 1px solid var(--accent); border-radius: 6px; padding: 11px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 20px rgba(79,142,247,0.25); }
     .btn-send:hover { background: var(--accent-dark); box-shadow: 0 0 28px rgba(79,142,247,0.45); }
     #f-ok { display: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--green); text-align: center; margin-top: 12px; }
 
@@ -437,7 +322,7 @@
       <a href="#leadership"     class="nav-link">Leadership</a>
       <a href="#contact"        class="nav-link">Contact</a>
     </div>
-    <a href="resume.pdf" download class="nav-btn">
+    <a href="resume/resume.pdf" download class="nav-btn">
       <i class="fas fa-download" style="font-size:0.6rem; margin-right:5px"></i>Resume
     </a>
     <button class="ham" id="ham" onclick="toggleMob()">
@@ -452,7 +337,7 @@
     <a href="#certifications" onclick="toggleMob()">Certifications</a>
     <a href="#leadership"     onclick="toggleMob()">Leadership</a>
     <a href="#contact"        onclick="toggleMob()">Contact</a>
-    <a href="resume.pdf" download>↓ Download Resume</a>
+    <a href="resume/resume.pdf" download>↓ Download Resume</a>
   </div>
 </nav>
 
@@ -479,25 +364,19 @@
           <a href="https://github.com/Shewak7"           class="icon-link" title="GitHub"   target="_blank"><i class="fab fa-github"></i></a>
           <a href="tel:+919626816717"                    class="icon-link" title="Phone"><i class="fas fa-phone"></i></a>
         </div>
-        <a href="resume.pdf" download class="btn-dl">
+        <a href="resume/resume.pdf" download class="btn-dl">
           <i class="fas fa-file-pdf" style="font-size:0.68rem"></i>Download Resume (PDF)
         </a>
       </div>
 
-      <!-- Side card -->
       <div class="profile-card">
         <div class="card-block">
           <div class="card-lbl">Objective</div>
-          <p class="card-text">
-            Seeking internships or full-time roles in Data Analysis or ML Engineering to apply analytical
-            and problem-solving skills to real-world data-driven challenges.
-          </p>
+          <p class="card-text">Seeking internships or full-time roles in Data Analysis or ML Engineering to apply analytical and problem-solving skills to real-world data-driven challenges.</p>
         </div>
         <div class="card-block">
           <div class="card-lbl">Availability</div>
-          <div class="card-text" style="margin-top:5px;">
-            <span class="status-dot"></span>Open to Opportunities
-          </div>
+          <div class="card-text" style="margin-top:5px;"><span class="status-dot"></span>Open to Opportunities</div>
         </div>
         <div class="card-block">
           <div class="card-lbl">Institution</div>
@@ -678,28 +557,19 @@
     <div class="reveal">
       <p class="sec-label">Certifications &amp; Training</p>
       <h2 class="sec-title">Professional Learning</h2>
-      <p style="font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); margin-top:-26px; margin-bottom:32px; display:flex; align-items:center; gap:7px;">
-        <i class="fas fa-upload" style="color:var(--accent); font-size:0.68rem"></i>
-        Click on any card to upload your certificate image — click again to view fullscreen
-      </p>
     </div>
 
     <div class="cert-grid reveal">
 
-      <!-- Cert 1 -->
+      <!-- Cert 1 — certs/cert1.png -->
       <div class="cert-card">
-        <div class="cert-img-wrap" onclick="triggerUpload('cert1-input')" id="cert1-wrap">
-          <div class="cert-placeholder" id="cert1-placeholder">
-            <i class="fas fa-certificate"></i>
-            <span>Click to upload certificate image</span>
-          </div>
-          <img id="cert1-img" src="" alt="Python for Data Science" style="display:none"/>
-          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
-          <div class="expand-hint" id="cert1-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
+        <div class="cert-img-wrap" onclick="openLightbox('certs/cert1.png', 'Python for Data Science — Infosys SpringBoard')">
+          <img src="certs/cert1.png" alt="Python for Data Science — Infosys SpringBoard"/>
+          <div class="cert-overlay">
+            <i class="fas fa-expand-alt"></i>
+            <span>View Certificate</span>
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert1-input" accept="image/*" onchange="loadCert(this,'cert1')"/>
         <div class="cert-info">
           <div class="cert-badge"><i class="fab fa-python"></i></div>
           <div class="cert-title">Python for Data Science</div>
@@ -707,20 +577,15 @@
         </div>
       </div>
 
-      <!-- Cert 2 -->
+      <!-- Cert 2 — certs/cert2.png -->
       <div class="cert-card">
-        <div class="cert-img-wrap" onclick="triggerUpload('cert2-input')" id="cert2-wrap">
-          <div class="cert-placeholder" id="cert2-placeholder">
-            <i class="fas fa-certificate"></i>
-            <span>Click to upload certificate image</span>
-          </div>
-          <img id="cert2-img" src="" alt="Advanced Prompt Engineering" style="display:none"/>
-          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
-          <div class="expand-hint" id="cert2-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
+        <div class="cert-img-wrap" onclick="openLightbox('certs/cert2.png', 'Advanced Prompt Engineering — Simplilearn')">
+          <img src="certs/cert2.png" alt="Advanced Prompt Engineering — Simplilearn"/>
+          <div class="cert-overlay">
+            <i class="fas fa-expand-alt"></i>
+            <span>View Certificate</span>
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert2-input" accept="image/*" onchange="loadCert(this,'cert2')"/>
         <div class="cert-info">
           <div class="cert-badge"><i class="fas fa-brain"></i></div>
           <div class="cert-title">Advanced Prompt Engineering</div>
@@ -728,20 +593,15 @@
         </div>
       </div>
 
-      <!-- Cert 3 -->
+      <!-- Cert 3 — certs/cert3.png -->
       <div class="cert-card">
-        <div class="cert-img-wrap" onclick="triggerUpload('cert3-input')" id="cert3-wrap">
-          <div class="cert-placeholder" id="cert3-placeholder">
-            <i class="fas fa-certificate"></i>
-            <span>Click to upload certificate image</span>
-          </div>
-          <img id="cert3-img" src="" alt="MS Power BI Workshop" style="display:none"/>
-          <div class="upload-overlay"><i class="fas fa-upload"></i><span>Upload Image</span></div>
-          <div class="expand-hint" id="cert3-expand" style="display:none">
-            <i class="fas fa-expand-alt" style="margin-right:3px; font-size:0.56rem"></i>View
+        <div class="cert-img-wrap" onclick="openLightbox('certs/cert3.png', 'MS Power BI Workshop — Office Masters')">
+          <img src="certs/cert3.png" alt="MS Power BI Workshop — Office Masters"/>
+          <div class="cert-overlay">
+            <i class="fas fa-expand-alt"></i>
+            <span>View Certificate</span>
           </div>
         </div>
-        <input type="file" class="cert-file-input" id="cert3-input" accept="image/*" onchange="loadCert(this,'cert3')"/>
         <div class="cert-info">
           <div class="cert-badge"><i class="fas fa-chart-bar"></i></div>
           <div class="cert-title">MS Power BI Workshop</div>
@@ -750,18 +610,14 @@
       </div>
 
     </div>
-
-    <p class="reveal" style="margin-top:20px; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); line-height:1.65;">
-      <i class="fas fa-info-circle" style="color:var(--accent); margin-right:5px"></i>
-      For GitHub Pages: add images to a <code style="background:var(--surface-2); padding:1px 6px; border-radius:3px; color:var(--ink-2);">certs/</code> folder and set <code style="background:var(--surface-2); padding:1px 6px; border-radius:3px; color:var(--ink-2);">src="certs/cert1.jpg"</code> on each image tag.
-    </p>
   </div>
 </section>
 
 <!-- Lightbox -->
 <div id="lightbox" onclick="closeLightbox()">
-  <span id="lightbox-close">ESC / CLICK TO CLOSE</span>
-  <img id="lightbox-img" src="" alt="Certificate"/>
+  <div id="lb-close"><i class="fas fa-times"></i> Close</div>
+  <img id="lb-img" src="" alt="Certificate"/>
+  <div id="lb-caption"></div>
 </div>
 
 <!-- ══════════ LEADERSHIP ══════════ -->
@@ -801,10 +657,7 @@
     </div>
     <div class="contact-layout reveal">
       <div>
-        <p class="contact-intro">
-          Open to internships, full-time roles, and collaborative projects in data analysis and machine learning.
-          Feel free to reach out through any of the channels below.
-        </p>
+        <p class="contact-intro">Open to internships, full-time roles, and collaborative projects in data analysis and machine learning. Feel free to reach out through any of the channels below.</p>
         <a href="mailto:shewak0707@gmail.com" class="cl-row">
           <div class="cl-icon"><i class="fas fa-envelope"></i></div>
           <div><div class="cl-sublbl">Email</div><div class="cl-lbl">shewak0707@gmail.com</div></div>
@@ -814,9 +667,7 @@
           <div><div class="cl-sublbl">LinkedIn</div><div class="cl-lbl">linkedin.com/in/shewak7</div></div>
         </a>
         <a href="https://github.com/Shewak7" target="_blank" class="cl-row">
-          <div class="cl-icon" style="color:var(--ink-2); background:var(--surface-2); border-color:var(--border-light);">
-            <i class="fab fa-github"></i>
-          </div>
+          <div class="cl-icon" style="color:var(--ink-2); background:var(--surface-2); border-color:var(--border-light);"><i class="fab fa-github"></i></div>
           <div><div class="cl-sublbl">GitHub</div><div class="cl-lbl">github.com/Shewak7</div></div>
         </a>
         <a href="tel:+919626816717" class="cl-row">
@@ -856,9 +707,8 @@
   <div class="foot-copy">© 2025 <span>Shewak N</span> &nbsp;·&nbsp; Chennai, Tamil Nadu</div>
 </footer>
 
-<!-- ══════════ JS ══════════ -->
 <script>
-  /* Nav scroll */
+  /* Nav scroll shadow */
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
   }, { passive: true });
@@ -885,7 +735,7 @@
   }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
   document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-  /* Active nav link */
+  /* Active nav */
   const secs = document.querySelectorAll('section[id]');
   const nls  = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
@@ -894,36 +744,10 @@
     nls.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
   }, { passive: true });
 
-  /* Certificate upload */
-  function triggerUpload(inputId) {
-    const certId = inputId.replace('-input', '');
-    const img = document.getElementById(certId + '-img');
-    if (img && img.style.display !== 'none') {
-      openLightbox(img.src); return;
-    }
-    document.getElementById(inputId).click();
-  }
-
-  function loadCert(input, certId) {
-    if (!input.files || !input.files[0]) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img         = document.getElementById(certId + '-img');
-      const placeholder = document.getElementById(certId + '-placeholder');
-      const expandHint  = document.getElementById(certId + '-expand');
-      img.src = e.target.result;
-      img.style.display = 'block';
-      placeholder.style.display = 'none';
-      if (expandHint) expandHint.style.display = 'block';
-      const wrap = document.getElementById(certId + '-wrap');
-      wrap.onclick = () => openLightbox(e.target.result);
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-
   /* Lightbox */
-  function openLightbox(src) {
-    document.getElementById('lightbox-img').src = src;
+  function openLightbox(src, caption) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-caption').textContent = caption || '';
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -932,7 +756,7 @@
     document.body.style.overflow = '';
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-  document.getElementById('lightbox-img').addEventListener('click', e => e.stopPropagation());
+  document.getElementById('lb-img').addEventListener('click', e => e.stopPropagation());
 
   /* Contact form */
   function sendMsg() {
